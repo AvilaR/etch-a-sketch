@@ -1,7 +1,4 @@
 .square {
-    float: left;
-    width: 36px;
-    height: 36px;
     border: 1px solid black;
     background-color: rgb(241, 107, 107);
 }
@@ -10,7 +7,10 @@
     background-color: rgb(101, 101, 231);
 }
 
-#container {
+#flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     width: 960px;
-    /* height: 1510px; */
+    background-color: rgb(180, 84, 84);
 }

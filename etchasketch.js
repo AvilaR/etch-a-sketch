@@ -1,40 +1,55 @@
-// for(let i = 0; i < 16 * 16; i++) {
-//     const square = document.createElement('div');
-//     square.setAttribute('class', 'square');
+let draw = () => {
+    let size = document.getElementById('grid-size').value;
 
-//     const container = document.querySelector('#container');
-//     container.appendChild(square);
-// }
-const table = document.createElement('table');
-
-let size = 16;
-
-for(let i = 0; i < size; i++) {
-    const tr = document.createElement('tr');
-    for(let k = 0; k < size; k++) {
-        const td = document.createElement('td');
-        td.setAttribute('class', 'square');
-        td.style.width = '' + (1000 / size * 100) + ' ';
-        tr.appendChild(td);
-    }
-    table.appendChild(tr);
+    createGrid(size);
 }
 
-const container = document.querySelector('#container');
-container.appendChild(table);
+// Gets rid of all grid elements
+let removeGrid = () => {
+    let top = document.getElementById('flex-container');
+    while(top.firstChild) {
+        top.removeChild(top.firstChild);
+    }
+}
 
-const squares = document.querySelectorAll('.square');
-
-squares.forEach((square) => {
-    square.addEventListener('mouseover', (e) => {
-        square.classList.add('square-hovered');
+// Erases marks on grid.
+let clearGrid = () => {
+    const squares = document.querySelectorAll('.square-hovered');
+    squares.forEach(square => {
+        square.classList.remove('square-hovered');
     });
+}
+
+let createGrid = (size) => {
+    // 960px wide
+    let length = (960 / size) - 2;
+    console.log('Square size: ' + length);
+    const container = document.getElementById('flex-container');
+
+    for(let i = 0; i < size; i++) {
+        const row = document.createElement('div');
+        for(let k = 0; k < size; k++) {
+            const square = document.createElement('div');
+            square.setAttribute('class', 'square');
+            square.style.cssText = 'width: ' + length + 'px; height: ' + length + 'px;';
+            square.addEventListener('mouseover', event => {
+                square.classList.add('square-hovered');
+            });
+            row.appendChild(square);
+        }
+        container.appendChild(row);
+    }
+}
+
+const sizeBtn = document.getElementById('size-btn');
+sizeBtn.addEventListener('click', (e) => {
+    removeGrid();
+    draw();
 });
 
-const restartBtn = document.querySelector('#restart-btn');
-
-restartBtn.addEventListener('click', (e) => {
-    squares.forEach((square) => {
-            square.classList.remove('square-hovered');
-      });
+const clearBtn = document.getElementById('clear-btn');
+clearBtn.addEventListener('click', event => {
+    clearGrid();
 });
+
+draw();
